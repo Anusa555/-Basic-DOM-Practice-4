@@ -1,0 +1,58 @@
+<div id="root"></div>
+<style>
+  @keyframes fade {
+    from{opacity: 0}
+    to{opacity: 1}
+  }
+  .fam-type{
+    color: red;
+    animation: fade 1.5s   
+  }
+  .fade-out{
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  
+</style>
+<script>
+const familiars = [
+  { name: "ค้างคาว", type: "บิน" },
+  { name: "หมาป่า", type: "พื้นดิน" },
+  { name: "งู", type: "พิษ" },
+];
+const root = document.querySelector("#root")
+function createElementWithText(tag,text){
+  const Ele = document.createElement(`${tag}`)
+  Ele.textContent = text
+  return Ele
+}
+function renderListItem(Arr){
+  const li = createElementWithText("li",Arr.name)
+  li.dataset.type = Arr.type
+  return li
+}
+function renderInventory(){
+  const ul = createElementWithText("ul","")
+  ul.id = "inventory"
+  root.appendChild(ul)
+  familiars.forEach(fam => ul.appendChild(renderListItem(fam)))
+  ul.addEventListener("click",(e)=>{
+    const li = e.target.closest("li")
+    if(!li) return
+    const type = li.dataset.type
+    if(li.querySelector("span")){
+      const span = li.querySelector("span")
+      span.classList.add("fade-out")
+      setTimeout(()=> span.remove(),1000)
+    }else{
+    const span = createElementWithText("span",`-ธาตุ: ${type}`)
+    span.classList.add("fam-type")
+    li.appendChild(span)
+    console.log(span)
+    }
+  })
+}
+renderInventory()  
+</script>
+  
+  
